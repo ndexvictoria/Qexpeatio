@@ -1,57 +1,17 @@
-#!/bin/bash
-# Peatio-fresh-installer.sh: Crypto Currency Exchange
-# Author: AlgoBasket
-# Skype algobasket
-# Email algobasket@gmail.com
-
-################################################################
-#  Goals of the script:
-#  To install the secured crypto currency exchange
-#
-#  Script by Algobasket.
-################################################################
-
-sudo apt-get -y install boxes;
-sudo apt-get -y update
-echo 'WELCOME TO PEATIO CRYPTOCURRENCY EXCHANGE v1.0 - DEVELOPED BY ALGOBASKET' | boxes -d diamonds -a hcvc
-echo -e "\n\n"
-echo -e "\033[34;7mWelcome to Peatio Crypto Exchange v1.0 - Build by Algobasket\e[0m "
-echo -e "\n\n"
-
-rm -rf peatio
-rm -rf ~/.rbenv
-
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get -y install git-core curl zlib1g-dev build-essential \
-                     libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 \
-                     libxml2-dev libxslt1-dev libcurl4-openssl-dev \
-                     python-software-properties libffi-dev
-
-echo -e "\n\n"
-echo -e "\033[34;7mInstalling Ruby Environment\e[0m"
-
-cd
-git clone git://github.com/sstephenson/rbenv.git .rbenv
-echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-exec $SHELL &
-
-echo -e "\n\n"
-echo -e "\033[34;7mInstalling Ruby Build\e[0m"
-
-git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
-exec $SHELL &
-sudo apt-get update
-rbenv install --verbose 2.2.2
-rbenv global 2.2.2
-
-echo -e "\n\n"
-echo -e "\033[34;7mInstalling Gem\e[0m"
-echo "gem: --no-ri --no-rdoc" > ~/.gemrc
-gem install bundler
-rbenv rehash
+echo -e "Ruby 2.3.0 stable install with gemset"
+sudo apt install gnupg2
+gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+echo -e "Now installing Rubies....."
+curl -sSL https://get.rvm.io | bash -s stable --ruby=2.3.0 --gems=rails
+echo -e "Fix default Ruby version"
+rvm use 2.3.0
+echo -e "Now installing Docker"
+sudo curl -sSL https://get.docker.com/ | sh
+echo -e "Giving docker sudo permission"
+sudo usermod -aG docker quanta
+echo -e "Now installing docker compose"
+sudo curl -L https://github.com/docker/compose/releases/download/1.24.0-rc1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 
 echo -e "\n\n"
 echo -e "\033[34;7mInstalling MYSQL\e[0m"
@@ -94,14 +54,14 @@ server=1
 daemon=1
 
 # If run on the test network instead of the real bitcoin network
-testnet=1
+
 
 # You must set rpcuser and rpcpassword to secure the JSON-RPC api
 # Please make rpcpassword to something secure, `5gKAgrJv8CQr2CGUhjVbBFLSj29HnE6YGXvfykHJzS3k` for example.
 # Listen for JSON-RPC connections on <port> (default: 8332 or testnet: 18332)
-rpcuser=testuser
-rpcpassword=testpass
-rpcport=18332
+rpcuser=AhmedagtyTFgyuk98
+rpcpassword=hy&*hedRDE4#@_{}hfdgdf@$$FSFddgnvkio933VDF
+rpcport=8332
 
 # Notify when receiving coins
 walletnotify=/usr/local/sbin/rabbitmqadmin publish routing_key=peatio.deposit.coin payload='{"txid":"%s", "channel_key":"satoshi"}'
@@ -140,7 +100,7 @@ sudo sed -i 's+# include /etc/nginx/passenger.conf;+include /etc/nginx/passenger
 echo -e "\n\n"
 echo -e "\033[34;7mInstalling JavaScript Runtime\e[0m"
 
-curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install nodejs
 
 echo -e "\n\n"
@@ -159,13 +119,10 @@ echo -e "\033[34;7mCloning Stable Peatio Repo\e[0m"
 
 mkdir -p ~/peatio
 cd peatio
-git clone https://github.com/algobasket/PeatioCryptoExchange.git .
+git clone https://github.com/QuantaPay/Qexpeatio.git .
 
 
-echo -e "\n\n"
-echo -e "\033[34;7mInstalling dependency gems\e[0m"
 
-bundle install --without development test --path vendor/bundle
 
 echo -e "\n\n"
 echo -e "\033[34;7mPrepare configure files\e[0m"
@@ -175,9 +132,9 @@ bin/init_config
 echo -e "\n\n"
 echo -e "\033[34;7mSetup Pusher\e[0m"
 
-sudo sed -i "s+YOUR_PUSHER_APP+594243+g" config/application.yml
-sudo sed -i "s+YOUR_PUSHER_KEY+155f063acccd16c2f04d+g" config/application.yml
-sudo sed -i "s+YOUR_PUSHER_SECRET+326c0ae14849b6c6bff5+g" config/application.yml
+sudo sed -i "s+YOUR_PUSHER_APP+735349+g" config/application.yml
+sudo sed -i "s+YOUR_PUSHER_KEY+fda5aaa3d3ee63595d2a+g" config/application.yml
+sudo sed -i "s+YOUR_PUSHER_SECRET+0d6d6358e7e2d56b3d6b+g" config/application.yml
 
 
 echo "ENTER YOUR SSH IP OR DOMAIN NAME : " sship
@@ -206,33 +163,5 @@ echo "Enter MySQL Password: " mysqlpassword
 read mysqlpassword
 sed -i "s+password:+password: ${mysqlpassword}@+g" config/database.yml
 
-echo -e "\n\n"
-echo -e "\033[34;7mInitialize the database and load the seed data\e[0m"
-bundle exec rake db:setup
-
-echo -e "\n\n"
-echo -e "\033[34;7mPrecompile assets\e[0m"
-bundle exec rake assets:precompile
-
-echo -e "\n\n"
-echo -e "\033[34;7mRunning Daemons\e[0m"
-#bundle exec rake daemons:start
-
-echo -e "\n\n"
-echo -e "\033[34;7mRunning Daemons\e[0m"
-#TRADE_EXECUTOR=4 rake daemons:start
-
-echo -e "\n\n"
-echo -e "\033[34;7mPassenger Setting\e[0m"
-sudo rm /etc/nginx/sites-enabled/default
-sudo ln -s /home/deploy/peatio/config/nginx.conf /etc/nginx/conf.d/peatio.conf
-sudo service nginx restart
-
-echo -e "\n\n"
-echo -e "\033[34;7mLiability Proof - Add this rake task to your crontab so it runs regularly\e[0m"
-
-RAILS_ENV=production rake solvency:liability_proof
-
-echo 'THANKS FOR INSTALLING PEATIO ENJOY !! CONTACT US ON SKYPE : algobasket | EMAIL : algobasket@gmail.com' | boxes -d peek -a c -s 40x11
-echo -e "\n\n"
-echo 'Donate us at paypal : algobasket@gmail.com for future contribution' | boxes -d shell -p a1l2
+echo -e " EXITING for next phase......."
+exit
