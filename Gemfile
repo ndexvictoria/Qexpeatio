@@ -6,7 +6,7 @@ gem 'rails-i18n'
 gem 'mysql2', '~> 0.3.21'
 gem 'daemons-rails'
 gem 'redis-rails'
-
+gem 'ruby', '~> 2.3.3'
 gem 'rotp'
 gem 'json'
 gem 'jbuilder'
