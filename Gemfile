@@ -75,7 +75,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker', '~> 1.4.3'
   gem 'mina'
-  gem 'mina-slack', github: 'PeatioCryptoExchange/mina-slack.git'
+  gem 'mina-slack', github: 'PeatioCryptoExchange/mina-slack'
   gem 'meta_request'
   gem 'better_errors'
   gem 'binding_of_caller'
